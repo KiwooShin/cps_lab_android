@@ -287,6 +287,8 @@ public class MainActivity extends Activity {
 										}								
 									}
 									
+									
+									
 									Log.d("KKK", "===============");
 									Log.d("KKK", "ry: " + rot_Y);
 									Log.d("KKK", "rp: " + rot_P);
