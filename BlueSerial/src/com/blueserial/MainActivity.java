@@ -62,9 +62,24 @@ public class MainActivity extends Activity {
 	
 	private String curString;
 	private String tempString;
-	private int accel_X;
-	private int accel_Y;
-	private int accel_Z;
+	
+	
+	private float  rot_Y; // Roll Pitch Yaw
+	private float  rot_P;
+	private float  rot_R;
+	
+	private float  accel_X; // Accel X, Y, Z
+	private float  accel_Y;
+	private float  accel_Z;
+	
+	private float  mag_X; // Magnetometer X, Y, Z
+	private float  mag_Y;
+	private float  mag_Z;
+	
+	private float  gyro_X; // Gyro X, Y, Z
+	private float  gyro_Y;	
+	private float  gyro_Z;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,22 +226,87 @@ public class MainActivity extends Activity {
 								line_parser[line_cnt] = line_parser[line_cnt].replace("a", "");
 								line_parser[line_cnt].trim();
 								String[] data_parser = line_parser[line_cnt].split(",");
-								for(data_cnt = 0; data_cnt<data_parser.length; data_cnt++)
+								
+								
+								Log.d("TAG", "Total Data Parser: " + data_parser.length);
+								
+								if(data_parser.length == 12) // ignore invalid data
 								{
-									switch(data_cnt)
+									for(data_cnt = 0; data_cnt<data_parser.length; data_cnt++)
 									{
-									case 0:
-										Log.d("TAG", "Y: " + data_parser[data_cnt]);
-										break;
-									case 1:
-										Log.d("TAG", "P: " + data_parser[data_cnt]);
-										break;									
-									case 2:										
-										Log.d("TAG", "R: " + data_parser[data_cnt]);
-										break;									
+										switch(data_cnt)
+										{
+										case 0:
+											Log.d("TAG", "Y: " + data_parser[data_cnt]);
+											rot_Y = Float.parseFloat(data_parser[data_cnt]);
+											break;
+										case 1:
+											Log.d("TAG", "P: " + data_parser[data_cnt]);
+											rot_P = Float.parseFloat(data_parser[data_cnt]);
+											break;									
+										case 2:										
+											Log.d("TAG", "R: " + data_parser[data_cnt]);
+											rot_R = Float.parseFloat(data_parser[data_cnt]);
+											break;		
+										case 3:										
+											Log.d("TAG", "A_X: " + data_parser[data_cnt]);
+											accel_X = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 4:										
+											Log.d("TAG", "A_Y: " + data_parser[data_cnt]);
+											accel_Y = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 5:										
+											Log.d("TAG", "A_Z: " + data_parser[data_cnt]);
+											accel_Z = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 6:										
+											Log.d("TAG", "M_X: " + data_parser[data_cnt]);
+											mag_X = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 7:										
+											Log.d("TAG", "M_Y: " + data_parser[data_cnt]);
+											mag_Y = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 8:										
+											Log.d("TAG", "M_Z: " + data_parser[data_cnt]);
+											mag_Z = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 9:										
+											Log.d("TAG", "G_X: " + data_parser[data_cnt]);
+											gyro_X = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 10:										
+											Log.d("TAG", "G_Y: " + data_parser[data_cnt]);
+											gyro_Y = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										case 11:										
+											Log.d("TAG", "G_Z: " + data_parser[data_cnt]);
+											gyro_Z = Float.parseFloat(data_parser[data_cnt]);
+											break;	
+										}								
 									}
+									
+									Log.d("KKK", "===============");
+									Log.d("KKK", "ry: " + rot_Y);
+									Log.d("KKK", "rp: " + rot_P);
+									Log.d("KKK", "rr: " + rot_R);
+									Log.d("KKK", "ax: " + accel_X);
+									Log.d("KKK", "ay: " + accel_Y);
+									Log.d("KKK", "az: " + accel_Z);
+									Log.d("KKK", "mx: " + mag_X);
+									Log.d("KKK", "my: " + mag_Y);
+									Log.d("KKK", "mz: " + mag_Z);
+									Log.d("KKK", "gx: " + gyro_X);
+									Log.d("KKK", "gy: " + gyro_Y);
+									Log.d("KKK", "gz: " + gyro_Z);
+									Log.d("KKK", "===============");
 								}
-								lg_Mov.o("YPR: " + line_parser[line_cnt]);
+								else
+								{
+									Log.d("TAG", "Error input!!!!!!!!");
+								}
+								lg_Mov.o("All: " + line_parser[line_cnt]);
 							}
 							else
 							{
